@@ -22,6 +22,5 @@ public class Teleport : MonoBehaviour
         {
             transform.position = spawner.transform.position;
         }
-        GetComponent<Rigidbody>().linearVelocity = new Vector3(4, 0, 0);
     }
 }
