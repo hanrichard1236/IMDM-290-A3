@@ -7,7 +7,7 @@ public class SceneChange : MonoBehaviour
     public GameObject transition;
     private float time;
     private int currentSceneIndex = -1;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
         foreach (GameObject scene in scenes)
@@ -17,7 +17,6 @@ public class SceneChange : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         time += Time.deltaTime;
@@ -33,7 +32,6 @@ public class SceneChange : MonoBehaviour
 
     void ChangeScene(int index)
     {
-        // Deactivate the previous scene
         if (currentSceneIndex != -1 && currentSceneIndex < scenes.Length)
         {
             scenes[currentSceneIndex].SetActive(false);
@@ -46,5 +44,4 @@ public class SceneChange : MonoBehaviour
             currentSceneIndex = index;
         }
     }
-
 }

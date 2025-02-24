@@ -26,8 +26,12 @@ public class AudioReact : MonoBehaviour
         float[] spectrum = new float[256];
         audioSource.GetSpectrumData(spectrum, 0, FFTWindow.BlackmanHarris);
 
-        // Calculate intensity based on audio
-        float intensity = Mathf.Clamp(spectrum[5] * audioMult, 0f, 1f);
+        float intensity = 0f;
+        for (int i = 8; i < 256; i++)
+        {
+            intensity += spectrum[i];
+        }
+        intensity = Mathf.Clamp(intensity * audioMult, 0f, 1f);
 
         // Interpolate vertical and horizontal scaling
         float targetY = Mathf.Lerp(vertMin * initialScale[1], vertMax * initialScale[1], intensity);
@@ -41,4 +45,26 @@ public class AudioReact : MonoBehaviour
         float heightOffset = (transform.localScale.y - initialScale.y) / 2f;
         transform.localPosition = new Vector3(position[0], initialPos[1], position[2]) + new Vector3(0, heightOffset, 0);
     }
+
+    void OnDrawGizmos()
+    {
+        if (audioSource == null) return;
+
+        float[] spectrum = new float[256];
+        audioSource.GetSpectrumData(spectrum, 0, FFTWindow.BlackmanHarris);
+
+        float heightMultiplier = 50f; // Increase this value to make lines taller
+
+        for (int i = 8; i < spectrum.Length; i++)
+        {
+            float x1 = (i - 1) * 0.1f;
+            float y1 = spectrum[i - 1] * heightMultiplier;
+            float x2 = i * 0.1f;
+            float y2 = spectrum[i] * heightMultiplier;
+
+            Gizmos.color = Color.Lerp(Color.blue, Color.red, (float)i / spectrum.Length);
+            Gizmos.DrawLine(new Vector3(x1, y1, 0), new Vector3(x2, y2, 0));
+        }
+    }
 }
+
