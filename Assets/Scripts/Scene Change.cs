@@ -3,6 +3,7 @@ using UnityEngine;
 public class SceneChange : MonoBehaviour
 {
     public GameObject[] scenes;
+    public Material[] skyboxes;
     public float[] cutoffs;
     public GameObject transition;
     private float time;
@@ -42,6 +43,13 @@ public class SceneChange : MonoBehaviour
         {
             scenes[index].SetActive(true);
             currentSceneIndex = index;
+        }
+
+        // Change skybox if available
+        if (index < skyboxes.Length && skyboxes[index] != null)
+        {
+            RenderSettings.skybox = skyboxes[index];
+            DynamicGI.UpdateEnvironment(); // Update lighting for the new skybox
         }
     }
 }
