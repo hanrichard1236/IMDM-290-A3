@@ -5,25 +5,52 @@ public class LoopingScreen : MonoBehaviour
     public GameObject[] objects;
     private Quaternion[] initialRotations;
     public float speed;
+    public bool isPaused = false;
     
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         initialRotations = new Quaternion[objects.Length];
         for (int i = 0; i < objects.Length; i++)
         {
-            initialRotations[i] = objects[i].transform.rotation;
+            if (objects[i] != null)
+            {
+                initialRotations[i] = objects[i].transform.rotation;
+            }
         }
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
-        for(int i = 0; i < objects.Length; i ++)
+        // Skip if paused
+        if (isPaused)
         {
-            objects[i].GetComponent<Rigidbody>().linearVelocity = new Vector3(speed, 0, 0);
-            objects[i].GetComponent<Rigidbody>().MoveRotation(initialRotations[i]);
+            for (int i = 0; i < objects.Length; i++)
+            {
+                if (objects[i] != null)
+                {
+                    Rigidbody rb = objects[i].GetComponent<Rigidbody>();
+                    if (rb != null)
+                    {
+                        rb.linearVelocity = new Vector3(0, 0, 0);
+                        rb.MoveRotation(initialRotations[i]);
+                    }
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < objects.Length; i++)
+            {
+                if (objects[i] != null)
+                {
+                    Rigidbody rb = objects[i].GetComponent<Rigidbody>();
+                    if (rb != null)
+                    {
+                        rb.linearVelocity = new Vector3(speed, 0, 0);
+                        rb.MoveRotation(initialRotations[i]);
+                    }
+                }
+            }
         }
     }
 }
