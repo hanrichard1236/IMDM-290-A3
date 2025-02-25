@@ -3,11 +3,12 @@ using UnityEngine;
 public class Teleport : MonoBehaviour
 {
     public GameObject spawner;
+    private Vector3 initialPosition;
     public GameObject DeletePlane;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Debug.Log(DeletePlane.name);
+        initialPosition = transform.position;
     }
 
     // Update is called once per frame
@@ -20,7 +21,7 @@ public class Teleport : MonoBehaviour
     {
         if(collision.gameObject == DeletePlane)
         {
-            transform.position = spawner.transform.position;
+            transform.position = new Vector3(spawner.transform.position.x, initialPosition.y, initialPosition.z);
         }
     }
 }

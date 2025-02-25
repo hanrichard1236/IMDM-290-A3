@@ -23,7 +23,7 @@ public class LoopingScreen : MonoBehaviour
         for(int i = 0; i < objects.Length; i ++)
         {
             objects[i].GetComponent<Rigidbody>().linearVelocity = new Vector3(speed, 0, 0);
-            objects[i].transform.rotation = initialRotations[i];
+            objects[i].GetComponent<Rigidbody>().MoveRotation(initialRotations[i]);
         }
     }
 }
